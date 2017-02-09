@@ -17,12 +17,29 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
+    Global.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    Global.game.scale.pageAlignHorizontally = true;
+    Global.game.scale.pageAlignVertically = true;
+    Global.game.scale.forceOrientation(true, false);
+    Global.game.scale.setMaximum();Global.game.scale.setScreenSize(true);
+    
+    
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     
 
+
+}
+
+function resize() {
+    Global.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    Global.game.scale.pageAlignHorizontally = true;
+    Global.game.scale.pageAlignVertically = true;G
+    lobal.game.scale.forceOrientation(true, true);
+    Global.game.scale.setShowAll();
+    Global.game.scale.refresh();
 }
 
 var player;
@@ -32,6 +49,7 @@ var cursors;
 var stars;
 var score = 0;
 var scoreText;
+
 
 function create() {
      cursors = game.input.keyboard.createCursorKeys();
@@ -80,6 +98,8 @@ function create() {
 }   
 
 function update() {
+    
+
    
     var hitPlatform = game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(stars, platforms);
