@@ -17,12 +17,8 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    game.scale.pageAlignHorizontally = true;
-    game.scale.pageAlignVertically = true;
-    game.scale.forceOrientation(true, false);
-    game.scale.setMaximum();
-    game.scale.setScreenSize(true);
+    game.scale.scaleMode = game.ScaleManage.RESIZE;
+
     
     
     game.load.image('sky', 'assets/sky.png');
@@ -34,14 +30,6 @@ function preload() {
 
 }
 
-function resize() {
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    game.scale.pageAlignHorizontally = true;
-    game.scale.pageAlignVertically = true;
-    game.scale.forceOrientation(true, true);
-    game.scale.setShowAll();
-    game.scale.refresh();
-}
 
 var player;
 var platforms;
