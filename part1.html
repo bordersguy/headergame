@@ -17,11 +17,12 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
-    Global.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    Global.game.scale.pageAlignHorizontally = true;
-    Global.game.scale.pageAlignVertically = true;
-    Global.game.scale.forceOrientation(true, false);
-    Global.game.scale.setMaximum();Global.game.scale.setScreenSize(true);
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.pageAlignHorizontally = true;
+    game.scale.pageAlignVertically = true;
+    game.scale.forceOrientation(true, false);
+    game.scale.setMaximum();
+    game.scale.setScreenSize(true);
     
     
     game.load.image('sky', 'assets/sky.png');
@@ -34,12 +35,12 @@ function preload() {
 }
 
 function resize() {
-    Global.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    Global.game.scale.pageAlignHorizontally = true;
-    Global.game.scale.pageAlignVertically = true;G
-    lobal.game.scale.forceOrientation(true, true);
-    Global.game.scale.setShowAll();
-    Global.game.scale.refresh();
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.pageAlignHorizontally = true;
+    game.scale.pageAlignVertically = true;
+    game.scale.forceOrientation(true, true);
+    game.scale.setShowAll();
+    game.scale.refresh();
 }
 
 var player;
