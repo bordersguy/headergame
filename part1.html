@@ -21,7 +21,7 @@ function preload() {
 
 
     
-    
+    game.load.image('diamond', 'assets/diamond.png');
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
@@ -40,6 +40,12 @@ var stars;
 var score = 0;
 var scoreText;
 
+var timer;
+var total;
+var timeText;
+
+var emitter;
+var emitter2;
 
 function create() {
      cursors = game.input.keyboard.createCursorKeys();
@@ -54,7 +60,7 @@ function create() {
     ground.body.immovable = true;
     var ledge = platforms.create(400,400, 'ground');
     ledge.body.immovable = true;
-    ledge = platforms.create(-150, 250, 'ground')
+    ledge = platforms.create(-150, 250, 'ground');
     ledge.body.immovable = true;
     
     //create player
@@ -81,14 +87,49 @@ function create() {
     }
     
     //score
-
-    
     scoreText = game.add.text(16, 16, 'score: 0',{fontSize: '32px', fill: '#000'});
+
+    //timer
+    timer = game.time.create(false);
+    
+    total = 60;
+    timeText = game.add.text(600, 16, 'time: 0',{fontSize: '32px', fill: '#000'});
+    
+    timer.loop(1000, updateCounter, this);
+
+    timer.start();
+
+    //explosion
+    emitter = game.add.emitter(0,0,100);
+    emitter.makeParticles('diamond');
+    emitter.gravity = Math.floor((Math.random() * 200) + 1);
+    
+    emitter2 = game.add.emitter(0,0,100);
+    emitter2.makeParticles('diamond');
+    emitter2.gravity = Math.floor((Math.random() * -200) + 1);
+    
+   
     
 }   
 
-function update() {
+function updateCounter() {
     
+    total -= 1;
+    
+    timeText.setText('Time: ' + total);
+   
+    if (total == 0)
+    {
+       total = 60;
+        
+    }
+    
+}
+
+function update() {
+   
+    
+
 
    
     var hitPlatform = game.physics.arcade.collide(player, platforms);
@@ -124,10 +165,25 @@ function update() {
 }
 
 function collectStar (player, star) {
+    particleBurst(star.x, star.y);
+    
     star.kill();
+    
     score += 10;
     scoreText.text = 'Score: ' + score;
 }
+
+function particleBurst(x,y){
+    emitter.x = x;
+    emitter.y = y;
+    emitter.start(true, 2000, null, 30);
+    
+    emitter2.x = x;
+    emitter2.y = y;
+    emitter2.start(true, 3000, null, 10);
+    
+}
+
 
 </script>
 
