@@ -14,10 +14,12 @@
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'gamehere', { preload: preload, create: create, update: update });
+
+var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'gamehere', {preload: preload, create: create, update: update });
+
 
 function preload() {
-
+    
     game.load.image('diamond', 'assets/diamond.png');
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform4.png');
@@ -25,7 +27,11 @@ function preload() {
     game.load.image('panel', 'assets/headerpanel.png');
     game.load.spritesheet('dude', 'assets/robo.png', 32, 48);
     
+    var loadingText = game.add.text(300,150, 'Loading', { fill: '#ffffff', fontSize: '60px' });
 }
+
+
+
 
 var panel;
 var player;
@@ -48,13 +54,11 @@ var word = 'GAMEDESIGN';
 
 var introText;
 var finalPoint;
-var loadingText;
+
 
 
 function create() {
-    game.load.onLoadStart.add(loadStart, this);
-    //game.load.onFileComplete.add(fileComplete, this);
-    game.load.onLoadComplete.add(loadComplete, this);
+        
      
      cursors = game.input.keyboard.createCursorKeys();
      
@@ -155,29 +159,6 @@ function create() {
   
     this.scale.setScreenSize( true );
 }   
-
-function start() {
-
-    //game.load.image('picture1', 'assets/baddie.png');
-
-
-    game.load.start();
-
-
-}
-
-function loadStart() {
-
-	loadingText = game.add.text(32, 32, 'Loading', { fill: '#ffffff' });
-
-}
-
-function loadComplete() {
-
-	loadingText.setText("Load Complete");
-
-}
-
 
 function startGame() {
     timer.start();
