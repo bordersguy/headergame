@@ -17,7 +17,7 @@
 var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'gamehere', { preload: preload, create: create, update: update });
 
 function preload() {
-    game.scale.scaleMode = Phaser.ScaleManager.Exact_Fit;
+   // game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
 
     
@@ -148,8 +148,9 @@ function create() {
     emitter2.makeParticles('diamond');
     emitter2.gravity = Math.floor((Math.random() * -200) + 1);
     
-   
-    
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  
+    this.scale.setScreenSize( true );
 }   
 
 function startGame() {
