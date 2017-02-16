@@ -26,7 +26,7 @@ function preload() {
     game.load.image('ground', 'assets/platform4.png');
     game.load.image('bubble', 'assets/bubble.png');
     game.load.image('panel', 'assets/headerpanel.png');
-    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    game.load.spritesheet('dude', 'assets/robo.png', 32, 48);
     
 
 
@@ -84,11 +84,13 @@ function create() {
     //here!
     //var intropanel = panel.create(introText.x,introText.y, 'panel');
     //create player
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
+    player = game.add.sprite(32, game.world.height - 200, 'dude');
     game.physics.arcade.enable(player);
+    // player.scale.setTo(2,2);
     player.body.bounce.y = 0.2;
     player.body.gravity.y = 300;
     player.body.collideWorldBounds = true;
+    player.body.moves = false;
     
     player.animations.add('left', [0,1,2,3], 10, true);
     player.animations.add('right', [5,6,7,8], 10, true);
@@ -157,6 +159,7 @@ function startGame() {
         child.body.velocity.setTo(200,200);
         
     });
+    player.body.moves = true;
     
     introText.destroy();
 
@@ -170,6 +173,8 @@ function gameOver(){
         child.body.velocity.setTo(0,0);
         
     });
+    
+    timer.stop();
     
     pointTotal();
     
