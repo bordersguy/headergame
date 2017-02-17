@@ -1,38 +1,3 @@
-<!doctype html> 
-<html lang="en"> 
-<head> 
-	<meta charset="UTF-8" />
-	<title>My Game Design Game</title>
-	<script type="text/javascript" src="js/phaser.min.js"></script>
-    <style type="text/css">
-        body {
-            margin: 0;
-        }
-    </style>
-</head>
-<body>
-
-<script type="text/javascript">
-
-
-var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'gamehere', {preload: preload, create: create, update: update });
-
-
-function preload() {
-    
-    game.load.image('diamond', 'assets/diamond.png');
-    game.load.image('sky', 'assets/sky.png');
-    game.load.image('ground', 'assets/platform4.png');
-    game.load.image('bubble', 'assets/bubble.png');
-    game.load.image('panel', 'assets/headerpanel.png');
-    game.load.spritesheet('dude', 'assets/robo.png', 32, 48);
-    
-    var loadingText = game.add.text(300,150, 'Loading', { fill: '#ffffff', fontSize: '60px' });
-}
-
-
-
-
 var panel;
 var player;
 var platforms;
@@ -48,6 +13,8 @@ var timeText;
 
 var emitter;
 var emitter2;
+var emitter3;
+var emitter4;
 
 var letterText;
 var word = 'GAMEDESIGN';
@@ -55,17 +22,18 @@ var word = 'GAMEDESIGN';
 var introText;
 var finalPoint;
 
+var directions;
 
 
-function create() {
-        
-     
+var playState = {
+ 
+create: function () {
      cursors = game.input.keyboard.createCursorKeys();
      
  
-    
+    directions = game.add.sprite(700, 200, 'directions');
     //create background
-    game.physics.startSystem(Phaser.Physics.ARCADE);
+
     game.add.sprite(0,0, 'sky');
     platforms = game.add.group();
     platforms.enableBody = true;
@@ -155,10 +123,60 @@ function create() {
     emitter2.makeParticles('diamond');
     emitter2.gravity = Math.floor((Math.random() * -200) + 1);
     
+    emitter3 = game.add.emitter(0,0,100);
+    emitter3.makeParticles('star');
+    emitter3.gravity = Math.floor((Math.random() * 200) + 1);
+    
+    emitter4 = game.add.emitter(0,0,100);
+    emitter4.makeParticles('star');
+    emitter4.gravity = Math.floor((Math.random() * -200) + 1);
+    
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   
     this.scale.setScreenSize( true );
-}   
+},
+
+update: function() {
+
+    var hitPlatform = game.physics.arcade.collide(player, platforms);
+    game.physics.arcade.collide(bubbles, platforms);
+    game.physics.arcade.collide(bubbles,bubbles);
+    game.physics.arcade.overlap(player, bubbles, collectBubble, null, this);
+    
+    player.body.velocity.x = 0;
+    
+    if (cursors.left.isDown)
+    {
+        player.body.velocity.x = -150;
+        player.animations.play('left');
+    }
+    else if (cursors.right.isDown)
+    {
+        player.body.velocity.x = 150;
+        player.animations.play('right');
+    }
+    else
+    {
+        player.animations.stop();
+        player.frame = 4;
+    }
+    
+    if (cursors.up.isDown && player.body.touching.down && hitPlatform)
+    {
+        player.body.velocity.y = -350;
+        
+    }
+    
+    
+    
+}
+    
+    
+    
+    
+    
+    
+};
 
 function startGame() {
     timer.start();
@@ -170,6 +188,8 @@ function startGame() {
     player.body.moves = true;
     
     introText.destroy();
+    
+    directions.destroy();
 
 }
 
@@ -186,15 +206,23 @@ function gameOver(){
     
     pointTotal();
     
+    var playbutton = game.add.button (panel.x,panel.y + 60, 'playagain', start, this, 2,1,0);
+    playbutton.anchor.setTo(0.5);
     
+    word = "GAMEDESIGN";
 }
 
 function pointTotal () {
     
-    finalPoint = game.add.text(300, 300,
+    panel = game.add.sprite(game.world.centerX, game.world.centerY, 'panel');
+    panel.anchor.setTo(0.5);
+    
+    finalPoint = game.add.text(panel.x, panel.y - 50, 
     'Collect the bubbles in order for the most points.\n Click here to start!',
-    {fontSize: '60px', fill: '#000', align: 'center',
+    { font: '30px Helvetica', fil: '#000', align: 'center',
     backgroundColor: '#fff'});
+
+    finalPoint.anchor.setTo(0.5);
     
     if (score < 100)
     {
@@ -236,43 +264,8 @@ function updateCounter() {
     
 }
 
-function update() {
-
-    var hitPlatform = game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(bubbles, platforms);
-    game.physics.arcade.collide(bubbles,bubbles);
-    game.physics.arcade.overlap(player, bubbles, collectBubble, null, this);
-    
-    player.body.velocity.x = 0;
-    
-    if (cursors.left.isDown)
-    {
-        player.body.velocity.x = -150;
-        player.animations.play('left');
-    }
-    else if (cursors.right.isDown)
-    {
-        player.body.velocity.x = 150;
-        player.animations.play('right');
-    }
-    else
-    {
-        player.animations.stop();
-        player.frame = 4;
-    }
-    
-    if (cursors.up.isDown && player.body.touching.down && hitPlatform)
-    {
-        player.body.velocity.y = -350;
-        
-    }
-    
-    
-    
-}
-
 function collectBubble (player, bubble) {
-    particleBurst(bubble.x, bubble.y);
+    
     
     for (var i = 0; i < word.length; i++) 
     {
@@ -280,6 +273,7 @@ function collectBubble (player, bubble) {
             
         if (check.text == word[i])
         {
+            diamondBurst(bubble.x, bubble.y);
             word = word.replace(check.text, "");
             bubble.kill();
             score += 30;
@@ -296,6 +290,7 @@ function collectBubble (player, bubble) {
         }
         else
         {
+            starBurst(bubble.x, bubble.y);
             word = word.replace(check.text, "");
             bubble.kill();
             score += 10;
@@ -315,7 +310,7 @@ function collectBubble (player, bubble) {
 
 }
 
-function particleBurst(x,y){
+function diamondBurst(x,y){
     emitter.x = x;
     emitter.y = y;
     emitter.start(true, 2000, null, 30);
@@ -326,8 +321,19 @@ function particleBurst(x,y){
     
 }
 
+function starBurst(x,y){
+    emitter3.x = x;
+    emitter3.y = y;
+    emitter3.start(true, 2000, null, 3);
+    
+    emitter4.x = x;
+    emitter4.y = y;
+    emitter4.start(true, 3000, null, 5);
+    
+}
 
-</script>
-
-</body>
-</html>
+  function  start () {
+        
+        game.state.start('play');
+        
+}
