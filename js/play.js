@@ -36,7 +36,7 @@ create: function () {
 
     game.add.sprite(0,0, 'sky');
  
-    directions = game.add.sprite(700, 200, 'directions');
+    
     platforms = game.add.group();
     platforms.enableBody = true;
     var ground = platforms.create(0, game.world.height - 64, 'ground');
@@ -132,6 +132,8 @@ create: function () {
     emitter4 = game.add.emitter(0,0,100);
     emitter4.makeParticles('star');
     emitter4.gravity = Math.floor((Math.random() * -200) + 1);
+ 
+    directions = game.add.sprite(700, 200, 'directions');
     
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   
