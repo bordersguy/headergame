@@ -286,7 +286,7 @@ function pointTotal () {
     
     if (score < 100)
     {
-        finalPoint.setText("Game Over\nThat was okay...but you can do better!");
+        finalPoint.setText("Game Over\nThat was okay\n...but you can do better!");
         
         
     }
