@@ -61,7 +61,7 @@ create: function () {
     //here!
     //var intropanel = panel.create(introText.x,introText.y, 'panel');
     //create player
-    player = game.add.sprite(32, game.world.height - 200, 'dude');
+    player = game.add.sprite(32, game.world.height - 125, 'dude');
     game.physics.arcade.enable(player);
     // player.scale.setTo(2,2);
     player.body.bounce.y = 0.2;
@@ -133,7 +133,7 @@ create: function () {
     emitter4.makeParticles('star');
     emitter4.gravity = Math.floor((Math.random() * -200) + 1);
  
-    directions = game.add.sprite(700, 200, 'directions');
+    directions = game.add.sprite(game.world.centerX - 125, 400, 'directions');
     
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   
