@@ -23,6 +23,13 @@ var introText;
 var finalPoint;
 
 var directions;
+var leftButton;
+var leftClick;
+var rightButton;
+var rightClick;
+var jumpButton1;
+var jumpButton2;
+var jumpClick;
 
 
 var playState = {
@@ -149,12 +156,12 @@ update: function() {
     
     player.body.velocity.x = 0;
     
-    if (cursors.left.isDown)
+    if (cursors.left.isDown || leftClick == true)
     {
         player.body.velocity.x = -150;
         player.animations.play('left');
     }
-    else if (cursors.right.isDown)
+    else if (cursors.right.isDown || rightClick == true)
     {
         player.body.velocity.x = 150;
         player.animations.play('right');
@@ -165,21 +172,12 @@ update: function() {
         player.frame = 4;
     }
     
-    if (cursors.up.isDown && player.body.touching.down && hitPlatform)
+    if (cursors.up.isDown && player.body.touching.down && hitPlatform || jumpClick == true && hitPlatform )
     {
         player.body.velocity.y = -350;
-        
     }
-    
-    
-    
 }
-    
-    
-    
-    
-    
-    
+  
 };
 
 function startGame() {
@@ -191,11 +189,69 @@ function startGame() {
     });
     player.body.moves = true;
     
+    jumpButton1 = game.add.sprite(200,125, 'movebutton');
+    jumpButton1.anchor.setTo(0.5);
+    jumpButton1.inputEnabled = true;
+    jumpButton1.events.onInputDown.add(jumpUp, this);
+    
+    jumpButton2 = game.add.sprite(1000,125, 'movebutton');
+    jumpButton2.anchor.setTo(0.5);
+    jumpButton2.inputEnabled = true;
+    jumpButton2.events.onInputDown.add(jumpUp, this);
+    
+    leftButton = game.add.sprite(200,475, 'movebutton');
+    leftButton.anchor.setTo(0.5);
+    leftButton.inputEnabled = true;
+    leftButton.events.onInputDown.add(moveLeft, this);
+    
+    rightButton = game.add.sprite(1000,475, 'movebutton');
+    rightButton.anchor.setTo(0.5);
+    rightButton.inputEnabled = true;
+    rightButton.events.onInputDown.add(moveRight, this);
+    
+    rightButton.events.onInputUp.add(stopRight, this);
+    leftButton.events.onInputUp.add(stopLeft, this);
+    jumpButton1.events.onInputUp.add(stopJump, this);
+    jumpButton2.events.onInputUp.add(stopJump, this);
+    
+    
     introText.destroy();
     
     directions.destroy();
 
 }
+
+function jumpUp(){
+    jumpClick = true;
+ 
+}
+
+function stopJump(){
+    jumpClick = false;
+    
+}
+
+function moveLeft(){
+    leftClick = true;
+    
+}
+
+function moveRight(){
+    rightClick = true;
+    
+}
+
+function stopLeft () {
+    leftClick = false;
+    
+}
+
+function stopRight () {
+    rightClick = false;
+    
+}
+
+
 
 function gameOver(){
     

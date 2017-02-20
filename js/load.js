@@ -15,6 +15,7 @@ var loadState = {
         game.load.image('star', 'assets/star.png');
         game.load.image('directions', 'assets/directions.png');
         game.load.image('playagain', 'assets/playagainbutton.png');
+        game.load.image('movebutton', 'assets/invisiblebutton.png');
     },
     
     create: function () {
