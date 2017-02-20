@@ -31,10 +31,12 @@ create: function () {
      cursors = game.input.keyboard.createCursorKeys();
      
  
-    directions = game.add.sprite(700, 200, 'directions');
+    
     //create background
 
     game.add.sprite(0,0, 'sky');
+ 
+    directions = game.add.sprite(700, 200, 'directions');
     platforms = game.add.group();
     platforms.enableBody = true;
     var ground = platforms.create(0, game.world.height - 64, 'ground');
