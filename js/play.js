@@ -17,7 +17,9 @@ var emitter3;
 var emitter4;
 
 var letterText;
-var word = 'GAMEDESIGN';
+var wordList = ['GAMEDESIGN', 'HAVEFUN', 'EDUCATION'];
+
+var word;
 
 var introText;
 var finalPoint;
@@ -35,10 +37,8 @@ var jumpClick;
 var playState = {
  
 create: function () {
-     cursors = game.input.keyboard.createCursorKeys();
-     
+    cursors = game.input.keyboard.createCursorKeys();
  
-    
     //create background
 
     game.add.sprite(0,0, 'sky');
@@ -84,7 +84,15 @@ create: function () {
   
     bubbles.enableBody = true;
     
-    for (var i = 0; i < 10; i++)
+    
+    if (window.localStorage.getItem("save") != null)
+    {
+        wordList = window.localStorage.getItem("save").split(" ");
+    }
+        
+    word = wordList[Math.floor(Math.random() * wordList.length)];    
+        
+    for (var i = 0; i < word.length; i++)
     {
         var bubble = bubbles.create(i * 70,40, 'bubble');
         bubble.body.gravity.setTo(0,0);
@@ -214,6 +222,7 @@ function startGame() {
     jumpButton1.events.onInputUp.add(stopJump, this);
     jumpButton2.events.onInputUp.add(stopJump, this);
     
+    score = 0;
     
     introText.destroy();
     
@@ -269,7 +278,9 @@ function gameOver(){
     var playbutton = game.add.button (panel.x,panel.y + 60, 'playagain', start, this, 2,1,0);
     playbutton.anchor.setTo(0.5);
     
-    word = "GAMEDESIGN";
+    
+    
+    // word = "GAMEDESIGN";
 }
 
 function pointTotal () {
@@ -393,6 +404,8 @@ function starBurst(x,y){
 }
 
   function  start () {
+      
+        word = wordList[Math.floor(Math.random() * wordList.length)];   
         
         game.state.start('play');
         

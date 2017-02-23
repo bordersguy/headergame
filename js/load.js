@@ -16,6 +16,10 @@ var loadState = {
         game.load.image('directions', 'assets/directions.png');
         game.load.image('playagain', 'assets/playagainbutton.png');
         game.load.image('movebutton', 'assets/invisiblebutton.png');
+        game.load.image('settings', 'assets/settingsbutton.png');
+        game.load.image('settingspanel', 'assets/settingspanel.png');
+        game.load.image('submit', 'assets/submitbutton.png');
+        game.load.image('clear', 'assets/clearbutton.png');
     },
     
     create: function () {
@@ -35,10 +39,10 @@ var loadState = {
     
         timerload.add(2000, startMenu, this);
         
-        
+       
      //   game.state.start('menu');
         
-       
+        
         
         
     }
