@@ -20,6 +20,7 @@ var letterText;
 var wordList = ['GAMEDESIGN', 'HAVEFUN', 'EDUCATION'];
 
 var word;
+var scoreWord;
 
 var introText;
 var finalPoint;
@@ -91,7 +92,7 @@ create: function () {
     }
         
     word = wordList[Math.floor(Math.random() * wordList.length)];    
-        
+    scoreWord = word;        
     for (var i = 0; i < word.length; i++)
     {
         var bubble = bubbles.create(i * 70,40, 'bubble');
@@ -347,7 +348,7 @@ function collectBubble (player, bubble) {
             diamondBurst(bubble.x, bubble.y);
             word = word.replace(check.text, "");
             bubble.kill();
-            score += 30;
+            score += Math.ceil(300/scoreWord.length);
             scoreText.text = 'Score: ' + score;
             
             if (word.length == 0)
@@ -364,7 +365,7 @@ function collectBubble (player, bubble) {
             starBurst(bubble.x, bubble.y);
             word = word.replace(check.text, "");
             bubble.kill();
-            score += 10;
+            score += Math.ceil(300/(scoreWord.length * 3));
             scoreText.text = 'Score: ' + score;
             
             if (word.length == 0)
